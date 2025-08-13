@@ -2,14 +2,14 @@ import "./App.css";
 import Timers from "./components/Timers/Timers.jsx";
 
 export default function App() {
-  function localeTime() {
-    return `${
-      new Date().toLocaleDateString().split(".")[0]
-    }:${new Date().toLocaleTimeString()}`;
+  function convertTimeToNeedForm(strTime) {
+    const twoPartsTime = strTime.split(",");
+    const day = twoPartsTime[0].split(".")[0];
+    const fullTime = `${day}:${twoPartsTime[1]}`;
+    return fullTime;
   }
 
-  let startTime = localeTime();
-  console.log(localStorage.getItem("startTime"));
+  let startTime = new Date().toLocaleString();
   if (localStorage.getItem("startTime")) {
     startTime = localStorage.getItem("startTime");
   } else {
@@ -18,11 +18,17 @@ export default function App() {
 
   return (
     <>
-      <div>Точка отсчёта: {localeTime()}</div>
-      <Timers timerTime={"365:00:00:00"} startTime={localeTime()} />
+      <div>Точка отсчёта: {new Date().toLocaleString()}</div>
+      <Timers
+        timerTime={"365:00:00:00"}
+        startTime={convertTimeToNeedForm(new Date().toLocaleString())}
+      />
 
       <div>Точка отсчёта: {startTime}</div>
-      <Timers timerTime={"365:00:00:00"} startTime={startTime} />
+      <Timers
+        timerTime={"365:00:00:00"}
+        startTime={convertTimeToNeedForm(startTime)}
+      />
     </>
   );
 }
